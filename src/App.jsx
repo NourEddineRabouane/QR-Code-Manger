@@ -4,11 +4,21 @@ import "./App.css";
 import Home from "./pages/Home";
 import Generate from "./pages/Generate";
 import Read from "./pages/Read";
+import { useEffect, useState } from "react";
 function App() {
+    const [isSm, setSm] = useState(false);
+    window.addEventListener("resize", () => {
+        if (window.innerWidth >= 480) setSm(true);
+        else setSm(false);
+    });
+    useEffect(() => {
+        if (window.innerWidth >= 480) setSm(true);
+        else setSm(false);
+    }, []);
     return (
         <>
-            <div className="">
-                <Nav />
+            <div className="font-wonder  from-blue-500 to-teal-400 ">
+                <Nav isSm={isSm} />
                 <Switch>
                     <Route exact path="/">
                         <Home />
