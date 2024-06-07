@@ -17,19 +17,21 @@ function App() {
     }, []);
     return (
         <>
-            <div className="font-wonder  from-blue-500 to-teal-400 ">
-                <Nav isSm={isSm} />
-                <Switch>
-                    <Route exact path="/">
-                        <Home />
-                    </Route>
-                    <Route exact path="/pages/Generate">
-                        <Generate />
-                    </Route>
-                    <Route exact path="/pages/Read">
-                        <Read />
-                    </Route>
-                </Switch>
+            <div className=" font-[roboto , sans serif] bg-[#f8f9fa] ">
+                <div className="sm:px-[10%]">
+                    <Nav isSm={isSm} />
+                    <Switch>
+                        <Route exact path="/">
+                            <Home />
+                        </Route>
+                        <Route exact path="/pages/Generate">
+                            <Generate />
+                        </Route>
+                        <Route exact path="/pages/Read">
+                            <Read />
+                        </Route>
+                    </Switch>
+                </div>
             </div>
         </>
     );

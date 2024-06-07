@@ -1,24 +1,29 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useFetch } from "./useFetch";
+import Image from "../images/Qr.png";
+import Download from "./Download";
+
 const Generate = () => {
     const [url, setUrl] = useState("");
-    const [show, setShow] = useState(false);
-    const { data, error, loading, isEmpty } = useFetch(encodeURI(url), 200);
+    const [generate, setgenerate] = useState(false);
+    const { data, error, loading, isEmpty } = useFetch(url, generate);
+    const inp = useRef();
 
-    // when click the button ===> generate the Show the generated QR code
-    // the problem when i click the button the url setted to empy and the empty message is visible with the QR code
-    const handleShow = () => {
-        setShow(true);
-        setUrl("");
+    // when click the button ===> show the generate the generated QR code ||
+    const handlegenerate = () => {
+        setgenerate(true);
+        inp.current.value = "";
+        if (data) setUrl("");
     };
-    console.log(isEmpty);
+
     return (
         <div className="p-4 flex gap-2 flex-col">
             <div className="w-[100%] grid gap-1 grid-cols-3">
                 <input
+                    ref={inp}
                     onChange={(event) => {
                         // when the user type do not generate any QR code
-                        setShow(false);
+                        setgenerate(false);
                         setUrl(event.target.value);
                     }}
                     type="text"
@@ -26,24 +31,49 @@ const Generate = () => {
                     className="border py-2 pl-2 col-start-1 col-end-3"
                 />
                 <button
-                    className="border bg-orange-500 p-2"
-                    onClick={handleShow}
+                    className="border bg-orange-500 p-2 text-white hover:bg-orange-600"
+                    onClick={handlegenerate}
                 >
                     Generate
                 </button>
             </div>
-            <div className="border p-4 h-[300px] flex justify-center items-center">
-                {show && loading && (
+            <div className="shadow-xl border py-6 h-[300px] flex justify-center items-center flex-col gap-4 lg:h-[350px] ">
+
+                {/* set the loading  */}
+                {generate && loading && (
                     <p className="text-center text-xl">Loading...</p>
                 )}
-                {show && data && (
-                    <img src={data} className="w-[200px] h-[200px]" />
+
+                {/* set the initial image if not loading and no data or no click on generate button*/}
+                {(!generate || !data) &&
+                    (loading ? (
+                        ""
+                    ) : (
+                        <img
+                            src={Image}
+                            className="opacity-20 w-[200px] h-[200px] lg:w-[250px] lg:h-[250px]"
+                        ></img>
+                    ))}
+                {/* generate the generated QR code */}
+
+                {generate && data && (
+                    <img
+                        src={data}
+                        className="w-[200px] h-[200px] lg:w-[250px] lg:h-[250px]"
+                    />
                 )}
-                {show && error && <p className="text-red-600">{error}</p>}
-                {show && isEmpty && (
+
+                {/* if there is an error */}
+                {generate && error && <p className="text-red-600">{error}</p>}
+
+                {/* if the input is empty */}
+                {generate && isEmpty && (
                     <p className="text-red-600">please type the URL !</p>
                 )}
+
             </div>
+            {/* the download button */}
+            <Download imageUrl={data}/>
         </div>
     );
 };
