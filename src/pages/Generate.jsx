@@ -6,7 +6,7 @@ import Download from "./Download";
 const Generate = () => {
     const [url, setUrl] = useState("");
     const [generate, setgenerate] = useState(false);
-    const { data, error, loading, isEmpty } = useFetch(url, generate);
+    const { data, error, loading, isEmpty } = useFetch(encodeURI(url), generate , "generate");
     const inp = useRef();
 
     // when click the button ===> show the generate the generated QR code ||

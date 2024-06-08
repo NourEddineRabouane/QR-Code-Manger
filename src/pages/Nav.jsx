@@ -37,7 +37,7 @@ const Nav = ({ isSm }) => {
                     Generate
                 </Link>
                 <Link className="hover:text-black py-2 pl-2" to="/pages/Read">
-                    Read
+                    Scan
                 </Link>
             </div>
         </header>
